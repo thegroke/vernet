@@ -30,5 +30,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: dll
-        path: |
-          VernetLib/bin/Release/netstandard2.0/*
+        path: code/VernetLib/bin/Release/netstandard2.0/

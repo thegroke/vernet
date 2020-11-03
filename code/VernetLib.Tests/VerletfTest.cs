@@ -2,9 +2,9 @@ using System;
 using dev.waynemarsh.vernet;
 using Xunit;
 
-namespace VernetLib.Tests
+namespace dev.waynemarsh.vernet.Tests
 {
-  public class UnitTest1
+  public class VerletFTest
   {
     [Fact]
     public void RepeatedIntegration_Zero_StaysZero()

@@ -31,4 +31,4 @@ jobs:
       with:
         name: dll
         path: |
-          VernetLib/bin/Release/netstandard2.0
+          VernetLib/bin/Release/netstandard2.0/*

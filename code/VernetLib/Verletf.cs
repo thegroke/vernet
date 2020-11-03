@@ -5,6 +5,7 @@ namespace dev.waynemarsh.vernet
   public class Verletf : IVerlet
   {
     private float c, l;
+    private readonly float d;
 
     public float Value
     {
@@ -12,6 +13,11 @@ namespace dev.waynemarsh.vernet
       get
       {
         return c;
+      }
+      [MethodImpl(MethodImplOptions.AggressiveInlining)]
+      set
+      {
+        c = value;
       }
     }
 
@@ -29,41 +35,50 @@ namespace dev.waynemarsh.vernet
       }
     }
 
-    public Verletf()
+    public Verletf(float drag)
     {
       c = l = 0;
+      d = drag;
     }
 
-    public Verletf(float initialValue)
+  public Verletf(float initialValue, float drag)
     {
       c = l = initialValue;
+      d = drag;
     }
 
-    public Verletf(float v0, float v1)
+public Verletf(float v0, float v1, float drag)
     {
-      l = v0;
-      c = v1;
-    }
+  l = v0;
+  c = v1;
+  d = drag;
+}
 
-    public float Integrate(float dt, float a)
-    {
-      float next = 2f * c - l + a * dt * dt;
-      l = c;
-      c = next;
-      return c;
-    }
+[MethodImpl(MethodImplOptions.AggressiveInlining)]
+public float Integrate(float dt)
+{
+  return Integrate(dt, 0);
+}
 
-    public static Verletf WarmStart(float dt, float v0, float u1, float a)
-    {
-      //  Velocity Verlet
-      // position += timestep * (velocity + timestep * acceleration / 2);
-      // velocity += timestep * (acceleration + newAcceleration) / 2;
+[MethodImpl(MethodImplOptions.AggressiveInlining)]
+public float Integrate(float dt, float a)
+{
+  float next = (1f + d) * c - d * l + a * dt * dt;
+  l = c;
+  c = next;
 
-      float u0 = u1 - dt * a;
-      float vdiff = u0 * dt + 0.5f * a * dt * dt;
+  return c;
+}
 
-      return new Verletf(v0 - vdiff, v0);
-    }
+[MethodImpl(MethodImplOptions.AggressiveInlining)]
+public void ZeroEnergy()
+{
+  l = c;
+}
+
+public static float CalculateDragFactorForTerminalVelocity(float dt, float a, float terminalVelocity)
+{
+  return (terminalVelocity - a * dt * dt) / terminalVelocity;
+}
   }
-
 }

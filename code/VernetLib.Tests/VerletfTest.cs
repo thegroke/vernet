@@ -1,5 +1,3 @@
-using System;
-using dev.waynemarsh.vernet;
 using Xunit;
 
 namespace dev.waynemarsh.vernet.Tests
@@ -52,6 +50,25 @@ namespace dev.waynemarsh.vernet.Tests
       }
 
       Assert.Equal(u, v.DValue);
+    }
+
+    [Fact]
+    public void Zeroing_Energy_Works()
+    {
+      const float dt = 1f / 50;
+
+      var v = new Verletf();
+
+      v.Integrate(dt, 100);
+
+      Assert.NotEqual(0, v.DValue);
+
+      var value = v.Value;
+
+      v.ZeroEnergy();
+
+      Assert.Equal(0, v.DValue);
+      Assert.Equal(value, v.Value);
     }
 
     [Fact]

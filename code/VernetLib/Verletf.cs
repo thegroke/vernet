@@ -35,50 +35,52 @@ namespace dev.waynemarsh.vernet
       }
     }
 
-    public Verletf(float drag)
+    public Verletf()
     {
       c = l = 0;
+      d = 1;
+    }
+
+    public Verletf(float drag = 1) :
+     this(0, 0, drag)
+    { }
+
+    public Verletf(float initialValue, float drag = 1) :
+      this(initialValue, initialValue, drag)
+    { }
+
+    public Verletf(float v0, float v1, float drag = 1)
+    {
+      l = v0;
+      c = v1;
       d = drag;
     }
 
-  public Verletf(float initialValue, float drag)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public float Integrate(float dt)
     {
-      c = l = initialValue;
-      d = drag;
+      return Integrate(dt, 0);
     }
 
-public Verletf(float v0, float v1, float drag)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public float Integrate(float dt, float a)
     {
-  l = v0;
-  c = v1;
-  d = drag;
-}
+      float next = (1f + d) * c - d * l + a * dt * dt;
+      l = c;
+      c = next;
 
-[MethodImpl(MethodImplOptions.AggressiveInlining)]
-public float Integrate(float dt)
-{
-  return Integrate(dt, 0);
-}
+      return c;
+    }
 
-[MethodImpl(MethodImplOptions.AggressiveInlining)]
-public float Integrate(float dt, float a)
-{
-  float next = (1f + d) * c - d * l + a * dt * dt;
-  l = c;
-  c = next;
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void ZeroEnergy()
+    {
+      l = c;
+    }
 
-  return c;
-}
-
-[MethodImpl(MethodImplOptions.AggressiveInlining)]
-public void ZeroEnergy()
-{
-  l = c;
-}
-
-public static float CalculateDragFactorForTerminalVelocity(float dt, float a, float terminalVelocity)
-{
-  return (terminalVelocity - a * dt * dt) / terminalVelocity;
-}
+    public static float CalculateDragFactorForTerminalVelocity(float dt, float a, float terminalVelocity)
+    {
+      return (terminalVelocity - a * dt * dt) / terminalVelocity;
+    }
   }
 }

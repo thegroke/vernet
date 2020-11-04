@@ -85,5 +85,10 @@ namespace dev.waynemarsh.vernet
     {
       return _impl.Integrate(dt, a);
     }
+
+    public void ZeroEnergy()
+    {
+      return _impl.ZeroEnergy();
+    }
   }
 }

@@ -88,7 +88,7 @@ namespace dev.waynemarsh.vernet
 
     public void ZeroEnergy()
     {
-      return _impl.ZeroEnergy();
+      _impl.ZeroEnergy();
     }
   }
 }

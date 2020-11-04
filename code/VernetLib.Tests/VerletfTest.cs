@@ -36,6 +36,24 @@ namespace dev.waynemarsh.vernet.Tests
     }
 
     [Fact]
+    public void ImpulseTakesEffect()
+    {
+      const int td = 50;
+      const float dt = 1f / td;
+      var v = new Verletf();
+
+      v.ApplyImpulse(5 * dt);
+
+      for (var i = 0; i < td; ++i)
+      {
+        v.Integrate(dt);
+      }
+
+      float err = td * dt * dt;
+      Assert.InRange(v.Value, 5 - err, 5 + err);
+    }
+
+    [Fact]
     public void RepeatedIntegration_Speed_StaysConstant()
     {
       const int td = 50;

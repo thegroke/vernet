@@ -41,8 +41,7 @@ namespace dev.waynemarsh.vernet
       d = 1;
     }
 
-    public Verletf(float drag = 1) :
-     this(0, 0, drag)
+    public Verletf(float drag = 1) : this(0, 0, drag)
     { }
 
     public Verletf(float initialValue, float drag = 1) :
@@ -70,6 +69,12 @@ namespace dev.waynemarsh.vernet
       c = next;
 
       return c;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void ApplyImpulse(float amount)
+    {
+      l -= amount;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

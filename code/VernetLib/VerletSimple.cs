@@ -86,6 +86,11 @@ namespace dev.waynemarsh.vernet
       return _impl.Integrate(dt, a);
     }
 
+    public void ApplyImpulse(float amount)
+    {
+      _impl.ApplyImpulse(amount);
+    }
+
     public void ZeroEnergy()
     {
       _impl.ZeroEnergy();
